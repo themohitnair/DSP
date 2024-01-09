@@ -25,7 +25,7 @@ CQUEUE* create(int max)
 
 bool full(CQUEUE* queue)
 {
-    return queue->count = queue->max_size;
+    return queue->count == queue->max_size;
 }
 
 bool empty(CQUEUE* queue)
@@ -62,7 +62,7 @@ void display(CQUEUE* queue)
 {
     if (empty(queue))
     {
-        printf("Queue is empty. No items left to delete.\n");
+        printf("Queue is empty. No items left to display.\n");
         exit(0);
     }
     printf("The elements in the circular queue are: ");
@@ -83,7 +83,7 @@ int main(void)
     int size;
     printf("Enter the maximum size of the array: ");
     scanf("%d",&size);
-    CQUEUE* queue = create(size+1);
+    CQUEUE* queue = create(size);
     char item;
     int choice;
     printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
