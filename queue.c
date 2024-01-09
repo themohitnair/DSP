@@ -85,11 +85,15 @@ int main(void)
             printf("Enter the character to be inserted into the queue: ");
             scanf(" %c", &item);
             enqueue(queue, item);
+            break;
             case 2:
             printf("Dequeued element: %c",dequeue(queue));
+            break;
             case 3:
             display(queue);
+            break;
             case 4:
+            liberate(queue);
             exit(0);
             default:
             printf("Invalid choice. Please choose again.\n");
