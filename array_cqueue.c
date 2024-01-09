@@ -81,7 +81,7 @@ void liberate(CQUEUE* queue)
 int main(void)
 {
     int size;
-    printf("Enter the maximum size of the array: ");
+    printf("Enter the maximum size of the queue: ");
     scanf("%d",&size);
     CQUEUE* queue = create(size);
     char item;

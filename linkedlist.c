@@ -83,7 +83,7 @@ char delete_tail(struct node* head)
 void display(struct node* head)
 {
     struct node* ptr = head;
-    printf("\nThe contents of the queue are: ");
+    printf("\nThe contents of the list are: ");
     while(ptr!=NULL)
     {
         printf("%c",ptr->data);
