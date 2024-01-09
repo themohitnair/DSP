@@ -17,7 +17,7 @@ bool empty(struct node* head)
 struct node* create()
 {
     struct node* head = (struct node*)malloc(sizeof(struct node*));
-    head->data = '|';
+    head->data = '-';
     head->link = NULL;
     return head;
 }
