@@ -6,90 +6,78 @@
 
 struct node {
     char data;
-    struct node* link;
+    struct node* next;
+    struct node* prev;
 };
-
-bool empty(struct node* head)
-{
-    return (head->link == NULL);
-}
 
 struct node* create()
 {
-    struct node* head = (struct node*)malloc(sizeof(struct node*));
+    struct node* head = (struct node*)malloc(sizeof(struct node));
     head->data = '-';
-    head->link = NULL;
+    head->next = head;
+    head->prev = head;
     return head;
 }
 
 void insert_tail(struct node* head, char item)
 {
-    struct node* ptr = head;
-    while(true)
-    {
-        if(ptr->link == NULL)
-            break;
-        else
-            ptr = ptr->link;
-    }
-    struct node* newnode = (struct node*)malloc(sizeof(struct node*));
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
     newnode->data = item;
-    ptr->link = newnode;
-    newnode->link = NULL;
+    struct node* tail = head->prev;
+    tail->next = newnode;
+    newnode->prev = tail;
+    newnode->next = head;
+    head->prev = newnode;
 }
 
 void insert_head(struct node* head, char item)
 {
-    struct node* ptr = head;
-    struct node* right = head->link;
-    struct node* newnode = (struct node*)malloc(sizeof(struct node*));
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
     newnode->data = item;
-    newnode->link = right;
-    head->link = newnode;    
+    struct node* first = head->next;
+    head->next = newnode;
+    newnode->prev = head;
+    newnode->next = first;
+    first->prev = newnode;
 }
 
 char delete_head(struct node* head)
 {
-    if(empty(head))
-    {
-        printf("List empty. No items left to delete. ");
-    }
-    struct node* ptr = head;
-    struct node* newfirst = ptr->link->link;
-    char deleted = ptr->link->data;
-    free(ptr->link);
-    ptr->link = newfirst;
+    struct node* del = head->next;
+    struct node* next = del->next;
+    head->next = next;
+    next->prev = head;
+    char deleted = del->data;
+    free(del);
     return deleted;
 }
 
 char delete_tail(struct node* head)
 {
-    if(empty(head))
-    {
-        printf("List empty. No items left to delete. ");
-    }
-    struct node* ptr = head;
-
-    while(true)
-    {
-        if(ptr->link->link == NULL)
-            break;
-        else
-            ptr = ptr->link;
-    }
-    char deleted = ptr->link->data;
-    ptr->link = NULL;
+    struct node* tail = head->prev;
+    struct node* prev = tail->prev;
+    prev->next = head;
+    head->prev = prev;
+    char deleted = tail->data;
+    free(tail);
     return deleted;
 }
 
 void display(struct node* head)
 {
     struct node* ptr = head;
-    printf("\nThe contents of the list are: ");
-    while(ptr!=NULL)
+    while(true)
     {
-        printf("%c",ptr->data);
-        ptr = ptr->link;
+        if(ptr->next == head)
+        {
+            printf("%c",ptr->data);
+            break;
+        }
+        else
+        {
+            printf("%c",ptr->data);
+            ptr = ptr->next;
+        }
     }
     printf("\n");
 }
@@ -97,11 +85,12 @@ void display(struct node* head)
 void liberate(struct node* head)
 {
     struct node* ptr = head;
-    while(ptr!=NULL)
+    while(ptr!=head)
     {
         free(ptr);
-        ptr = ptr->link;
+        ptr = ptr->next;
     }
+    free(head);
 }
 
 int main(void)
